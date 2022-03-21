@@ -75,7 +75,7 @@ let cache = {};
 gulp.task('js-es5', () => {
     return rollup({
         cache: cache.umd,
-        input: 'js/index.js',
+        input: 'reveal.js/js/index.js',
         plugins: [
             resolve(),
             commonjs(),
@@ -98,7 +98,7 @@ gulp.task('js-es5', () => {
 gulp.task('js-es6', () => {
     return rollup({
         cache: cache.esm,
-        input: 'js/index.js',
+        input: 'reveal.js/js/index.js',
         plugins: [
             resolve(),
             commonjs(),
@@ -121,12 +121,12 @@ gulp.task('js', gulp.parallel('js-es5', 'js-es6'));
 // built-in plugins
 gulp.task('plugins', () => {
     return Promise.all([
-        { name: 'RevealHighlight', input: './plugin/highlight/plugin.js', output: './plugin/highlight/highlight' },
-        { name: 'RevealMarkdown', input: './plugin/markdown/plugin.js', output: './plugin/markdown/markdown' },
-        { name: 'RevealSearch', input: './plugin/search/plugin.js', output: './plugin/search/search' },
-        { name: 'RevealNotes', input: './plugin/notes/plugin.js', output: './plugin/notes/notes' },
-        { name: 'RevealZoom', input: './plugin/zoom/plugin.js', output: './plugin/zoom/zoom' },
-        { name: 'RevealMath', input: './plugin/math/plugin.js', output: './plugin/math/math' },
+        { name: 'RevealHighlight', input: './reveal.js/plugin/highlight/plugin.js', output: './plugin/highlight/highlight' },
+        { name: 'RevealMarkdown', input: './reveal.js/plugin/markdown/plugin.js', output: './plugin/markdown/markdown' },
+        { name: 'RevealSearch', input: './reveal.js/plugin/search/plugin.js', output: './plugin/search/search' },
+        { name: 'RevealNotes', input: './reveal.js/plugin/notes/plugin.js', output: './plugin/notes/notes' },
+        { name: 'RevealZoom', input: './reveal.js/plugin/zoom/plugin.js', output: './plugin/zoom/zoom' },
+        { name: 'RevealMath', input: './reveal.js/plugin/math/plugin.js', output: './plugin/math/math' },
     ].map( plugin => {
         return rollup({
                 cache: cache[plugin.input],
@@ -179,11 +179,11 @@ function compileSass() {
   });
 }
 
-gulp.task('css-themes', () => gulp.src(['./css/theme/source/*.{sass,scss}'])
+gulp.task('css-themes', () => gulp.src(['reveal.js/css/theme/source/*.{sass,scss}'])
         .pipe(compileSass())
         .pipe(gulp.dest('./dist/theme')))
 
-gulp.task('css-core', () => gulp.src(['css/reveal.scss'])
+gulp.task('css-core', () => gulp.src(['reveal.js/css/reveal.scss'], { allowEmpty: true })
     .pipe(compileSass())
     .pipe(autoprefixer())
     .pipe(minify({compatibility: 'ie9'}))
@@ -203,7 +203,7 @@ gulp.task('qunit', () => {
 
     let server = connect.server( serverConfig )
 
-    let testFiles = glob.sync('test/*.html' )
+    let testFiles = glob.sync('reveal.js/test/*.html')
 
     let totalTests = 0;
     let failingTests = 0;
@@ -259,7 +259,7 @@ gulp.task('qunit', () => {
     } );
 } )
 
-gulp.task('eslint', () => gulp.src(['./js/**', 'gulpfile.js'])
+gulp.task('eslint', () => gulp.src(['./reveal.js/js/**', 'gulpfile.js'])
         .pipe(eslint())
         .pipe(eslint.format()))
 
@@ -273,7 +273,7 @@ gulp.task('package', gulp.series('default', () =>
 
     gulp.src([
         './index.html',
-        './dist/**',
+        './reveal.js/dist/**',
         './lib/**',
         './images/**',
         './plugin/**',
@@ -296,18 +296,18 @@ gulp.task('serve', () => {
 
     gulp.watch(['*.html', '*.md'], gulp.series('reload'))
 
-    gulp.watch(['js/**'], gulp.series('js', 'reload', 'eslint'))
+    gulp.watch(['reveal.js/js/**'], gulp.series('js', 'reload', 'eslint'))
 
-    gulp.watch(['plugin/**/plugin.js'], gulp.series('plugins', 'reload'))
+    gulp.watch(['reveal.js/plugin/**/plugin.js'], gulp.series('plugins', 'reload'))
 
     gulp.watch([
-        'css/theme/source/*.{sass,scss}',
-        'css/theme/template/*.{sass,scss}',
+        'reveal.js/css/theme/source/*.{sass,scss}',
+        'reveal.js/css/theme/template/*.{sass,scss}',
     ], gulp.series('css-themes', 'reload'))
 
     gulp.watch([
-        'css/*.scss',
-        'css/print/*.{sass,scss,css}'
+        'reveal.js/css/*.scss',
+        'reveal.js/css/print/*.{sass,scss,css}'
     ], gulp.series('css-core', 'reload'))
 
     gulp.watch(['test/*.html'], gulp.series('test'))
