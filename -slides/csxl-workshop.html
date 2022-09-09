@@ -18,15 +18,357 @@
             <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
                 <script type="text/template">
 
-## Introduction to iOS Development
+# Introduction to iOS Development
 
-CSXL x App Team Carolina</br>
-<a href="https://samrshi.github.io/slides">samrshi.github.io/slides</a>
+https://samrshi.github.io/slides
+
+https://unc.zoom.us/my/samshi
 
 ---
 
-# Hi
-	            </script>
+# Who am I?
+
+--
+
+## Intro
+- Sam Shi ("Shy" )
+- he/him/his
+- B.S. Computer Science & Music Minor
+- Fellow @ Computer Science Experience Lab
+
+--
+
+## My iOS Experience
+
+![experience](../-images/experience.png)
+
+---
+
+# Who are you?
+
+--
+
+## Quick icebreaker...
+1. Chat with a neighbor
+2. Tell them your name
+3. Find things that you have in common
+4. Share these things with the group
+5. The pair that found the most wins...
+6. You have three minutes :)
+
+--
+
+## Around the room
+- Your name & pronouns
+- Years at UNC
+- Majors and minors
+- Favorite app and why
+
+--
+
+## Why'd I ask about your favorite app?
+- I've been misleading you
+- Workshop title is slightly deceiving
+
+--
+
+## What're you talking about?
+- Not just learning how to build apps
+- Learning to think critically about software
+
+---
+
+# Learning Objectives
+What's the point of this workshop?
+
+--
+
+## Zoomed-Out Objectives
+
+1. Demystify mobile applications
+2. Learn to reason about user interfaces
+3. Get exposure to iOS app development with SwiftUI
+   - To accomplish 1 & 2
+
+--
+
+## What about iOS development?
+
+- If you're super hyped about iOS, I'd love you to continue pursuing it
+- Not everyone will remember what `HStack`, `VStack`, and `Spacer` do
+- I hope everyone will walk away having learned a new way to think about UIs
+
+--
+
+## Zoomed-In Objectives
+
+This workshop series will expose you to...
+1. Fundamental Swift syntax and concepts
+2. Thinking about a user interface as a collection of components
+3. How to build user interfaces with SwiftUI
+4. How to refactor a read-only UI to handle interaction and show dynamic data
+5. Network requests (if time allows)
+
+---
+
+## Today
+
+1. Learn anatomy of an Xcode project
+2. Learn fundamental building blocks of SwiftUI
+3. Learn fundamental Swift syntax and concepts
+4. Start to think about how we might build a music player
+
+---
+
+# Let's hop in 🎉
+
+(disclaimer...)
+
+--
+
+## Technology Setup Disclaimer
+- You should have Xcode & SF Symbols installed
+- These are fantastic tools for app development
+
+--
+
+## What if I couldn't complete setup?
+- That's fine!!
+- Xcode isn't 100% required for today's work
+- Will be necessary for Monday's session
+
+---
+
+# Demystifying Mobile Apps
+
+--
+
+## Mobile apps are just code
+- All of your favorite apps are created with code
+- Files full of if statements, functions, classes, etc.
+- They are often complex, but understandable
+
+---
+
+# What are Swift and SwiftUI?
+
+--
+
+## Swift
+
+> Swift is a general-purpose programming language built using a modern approach to safety, performance, and software design patterns. ([swift.org](https://www.swift.org/about/))
+
+- Safe
+- Fast
+- Expressive
+
+--
+
+## SwiftUI
+
+> Introduced at WWDC 2019, SwiftUI is a declarative UI framework from Apple that enables developers to build native user interfaces for apps running on either iOS, iPadOS, watchOS, tvOS or macOS. ([swiftbysundell.com](https://www.swiftbysundell.com/discover/swiftui/))
+
+--
+
+## ✨ The SwiftUI Mindset ✨
+
+- Declarative, reactive programming framework.
+- View is a function of the state
+- Change of state → view refresh
+- Specify all different configurations up front vs. manually configuring them
+
+--
+
+## Example of declarative UI
+
+```objective-c
+- (UIEdgeInsets)setStateOne
+{
+    ...
+    component.insets = UIEdgeInsetsOptionOne;
+    ...
+}
+
+...
+
+- (UIEdgeInsets)setStateTwo
+{
+    ...
+    component.insets = UIEdgeInsetsOptionTwo;
+    ...
+}
+
+...
+```
+
+```objective-c
+- (UIEdgeInsets)edgeInsetsFor:(State)state
+{
+    if (state == StateOptionOne) {
+        return UIEdgeInsetsOptionOne;
+    } else if (state == StateOptionTwo) {
+        return UIEdgeInsetsOptionTwo;
+    } else if (state == StateOptionThree) {
+        return UIEdgeInsetsOptionThree;
+    } else {
+        NSAssertionFalse(@"Unexpected state");
+        return UIEdgeInsetsOptionOne;
+    }
+}
+```
+
+--
+
+## (Some of) the benefits of declarative programming
+
+- Prevents mismatches between the view and the data (common in imperative)
+- Increases readability & refactorability
+- Consolidates logic for a component into one place
+
+---
+
+# Building UIs with SwiftUI
+
+--
+
+## Let's take a look at an iOS app project
+
+1. Open Xcode
+2. "Create a new Xcode project"
+3. In "iOS" tab, select "App"
+4. Name it "csxl-ios-exploration"
+5. Select "SwiftUI" as our Interface Framework
+6. Select "Swift" as Language
+7. Deselect "Use CoreData" and "Include Tests"
+
+--
+
+## Xcode Tour
+- `csxl-ios-exploration.xcodeproj`
+- Main `App` file
+- `ContentView.swift`
+- Asset Catalog
+- Preview Content
+
+--
+
+## The Basic Views
+
+--
+
+## Text
+
+Takes in a string and renders it on screen.
+
+```swift
+// Example
+Text("Welcome to SwiftUI!")
+```
+
+--
+
+## Image (custom image)
+
+1. Add an image to our Asset Catalog in `assets.xcassets`
+2. Give it a reasonable name and copy to clipboard.
+3. Use the `Image(_ name: String)` initializer to render it on screen.
+
+```swift
+// Example
+Image("csxl-logo")
+```
+
+--
+
+## Image (SF Symbol)
+
+Since iOS 13, the operating system provides a huge icon library that we are free to use.
+- Very easy to obtain icons this way. No need to download icon sets.
+- Common icons used across many iOS applications.
+- Users know these icons.
+
+```swift
+// Example
+Image(systemName: "square.and.arrow.up")
+```
+
+--
+
+## SwiftUI Layout
+
+There are only 3 ways to layout views in SwiftUI.
+- `VStack` - vertical stack
+- `HStack` - horizontal stack
+- `ZStack` - (zertical?) stack on the Z axis
+
+--
+
+## Example Layout
+
+```swift
+VStack {
+    HStack {
+        Text("pfp")
+
+        VStack {
+            Text("Username")
+            Text("Location")
+        }
+
+        Spacer() // spacer is new
+
+        Text("Three dots")
+    }
+
+    Color.blue.aspectRatio(1, contentMode: .fit)
+
+    HStack {
+        Text("Like")
+        Text("Comment")
+        Text("Share")
+        Spacer()
+        Text("Dots")
+        Spacer()
+        Text("Save")
+    }
+
+    HStack {
+        Text("caption")
+        Spacer()
+    }
+}
+```
+</script>
+            </section>
+
+            <section>
+                <div style="display: flex; justify-content: space-around;">
+                    <img src="../-images/csxl-spotify.png" height=450px>
+                    <img src="../-images/csxl-spotify-layout.png" height=450px>
+
+                    <div style="margin-left: 20px; margin-top: 20px">
+                        <h2>SwiftUI Activity</h2>
+                        <p>Recreating the layout of a music player using the following SwiftUI views...</p>
+                        <ul>
+                            <li><code>HStack</code></li>
+                            <li><code>VStack</code></li>
+                            <li><code>Spacer</code></li>
+                            <li><code>Text</code></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Fun Fact</h2>
+                <p>App Team Carolina's Academy & Apprenticeship teams teach you all of these skills and more!</p>
+                <p>If you're interested in joining App Team and learning more about iOS development, check out our
+                    Instagram! <a href="https://www.instagram.com/appteamcarolina/">@appteamcarolina</a></p>
+            </section>
+
+
+
+            </script>
             </section>
 
         </div>
