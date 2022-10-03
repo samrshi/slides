@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="../reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="../reveal.js/dist/theme/black.css">
+    <link rel="stylesheet" href="../reveal.js/plugin/highlight/monokai.css">
+
+    <title>Introduction to iOS Development</title>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slides are separated by regexp matching newline + three dashes + newline, vertical slides identical but two dashes -->
+            <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
+                <script type="text/template">
+
+# Introduction to iOS Development 2
+## Let's make it pretty
+
+https://samrshi.github.io/slides
+
+---
+
+# Another Icebreaker
+
+--
+
+## Show and Tell
+- Choose any object that you currently have with you
+- Say your name and year at UNC
+- Tell us about your object
+
+---
+
+# What are we doing today?
+
+--
+
+## Making things pretty
+<img width=200px src="../-images/csxl-spotify-layout.png"/>
+
+--
+
+## How do we do that? Introducing...
+# ✨ View Modifiers ✨
+
+--
+
+## What are View Modifiers?
+- Well, they allow you to modify your views 😜
+- If you've done web dev... kind of like writing css inline
+- Views, layout, and styling all in one place 👍
+
+--
+
+## How do we use them?
+
+```
+// Template
+View(args...)
+    .modifier(args...)
+
+// Example
+Text("Hello, World!")
+    .foregroundColor(.blue)
+```
+
+--
+
+## A Subset of Common View Modifiers
+```
+// Padding - add space around your Views
+.padding(_ edges: Edge.Set = .all, _ length: CGFloat? = nil)
+.padding(16)
+.padding(.horizontal, 32)
+
+// Background - put a view behind another
+.background(Color.blue)
+.background(LinearGradient(...), ignoresSafeAreaEdges = .all)
+
+// Foreground Color - color of the main content
+.foregroundColor(.secondary) // using dot syntax
+
+// Font & Font Weight - customize text specifically
+.font(.title)
+.fontWeight(.bold)
+
+// Styling images - images have a default size 
+Image("name")
+    .resizable()
+    .scaledToFit()
+    .frame(width: ..., height: ...) // optional
+    .foregroundColor(...) // optional
+```
+
+--
+
+## Fonts
+- Here is a list of the default that are available to us in SwiftUI
+- Automatically scale with Dynamic Type!!
+
+<img height="400px" align="left" src="../-images/swiftui-fonts.png"/>
+
+--
+
+## New Views and New Initializers
+```
+// Linear Gradient
+LinearGradient(colors: [...], startPoint: ..., endPoint: ...)
+LinearGradient(colors: [.red, .blue], startPoint: .top, endPoint: .bottom)
+
+// New VStack Arguments
+VStack(alignment: HorizontalAlignment, spacing: CGFloat?)
+VStack(alignment: .leading, spacing: 24)
+
+// New HStack Arguments
+HStack(alignment: VerticalAlignment, spacing: CGFloat?)
+VStack(alignment: .bottom, spacing: 24)
+```
+
+---
+
+# SwiftUI Exercise
+- Spotify
+
+</script>
+            </section>
+        </div>
+    </div>
+
+    <script src="../reveal.js/dist/reveal.js"></script>
+    <script src="../reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../reveal.js/plugin/notes/notes.js"></script>
+    <script src="../reveal.js/plugin/math/math.js"></script>
+
+    <script>
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX]
+        });
+    </script>
+</body>
+
+</html>
